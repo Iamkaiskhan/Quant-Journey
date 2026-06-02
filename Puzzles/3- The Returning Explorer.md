@@ -2,7 +2,7 @@
 **Source :** Brainstellar(easy) | **Status :** ⚠️ Solved with help
 <br>
 # Problem <br>
-<img width="842" height="170" alt="image" src="https://github.com/user-attachments/assets/b22bda6d-aaf8-43a6-b235-efedfdd4a209" />
+<img width="842" height="170" alt="image" src="https://github.com/user-attachments/assets/b22bda6d-aaf8-43a6-b235-efedfdd4a209" /> <br>
 # My attempt <br>
 =>I am not able to understand the puzzle <br>
 # Where I got stuck <br>
