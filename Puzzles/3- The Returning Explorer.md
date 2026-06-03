@@ -8,7 +8,6 @@
 # Where I got stuck <br>
 => I am confused how to indentify the colour of bear with these information <br>
 # Solution (after reviewing) <br>
-<img width="823" height="481" alt="image" src="https://github.com/user-attachments/assets/4eb76b39-267b-499c-9618-196b17a1d266" />
-<br>
+<img width="823" height="481" alt="image" src="https://github.com/user-attachments/assets/4eb76b39-267b-499c-9618-196b17a1d266" /> <br>
 # What I learned <br>
 =>I have understand the concept of Latitude and Longitude
