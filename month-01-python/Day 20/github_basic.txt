@@ -1,0 +1,14 @@
+In terminal we can use clone commond
+'git clone <-some link->
+
+we can use status commond
+'git status'
+
+the meaning of 'untracked' is that the new file that git dosent yet track
+
+the meaning of 'modified' is that the file is changed/committed
+
+the meaning of 'staged' is that file is ready to be committed
+
+the meaning of 'unmodified' is that file is unchanged
+ 
