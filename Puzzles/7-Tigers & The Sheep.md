@@ -3,7 +3,7 @@
 Link: https://brainstellar.com/puzzles/easy/7
 <br>
 
-##Type: Strategy
+## Type: Strategy
 <br>
 ##Question:
 <br>
