@@ -11,4 +11,38 @@ the meaning of 'modified' is that the file is changed/committed
 the meaning of 'staged' is that file is ready to be committed
 
 the meaning of 'unmodified' is that file is unchanged
+
+ # Add & Commit feature
+ A) add - adds new or chaged files in your working directory to the git staging area
+    git add <- file name ->
+ B) commit - it is the record of changed
+    git commit -m 'some message'
+
+now after all this we have to push it to github
+ i.e we have to use push command
+ push - upload local repo content to remote repo
+    ' git push origin main '
+    
+# init command - it is used for creating a new git repo
  
+    git init
+    git remote add origin <- link ->
+    git remote -v (to verify remote)
+    git branch (to check branch)
+    git branch -M main  (to rename branch)
+    git push origin main
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+

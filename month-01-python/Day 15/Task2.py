@@ -22,6 +22,7 @@ def file_read():
 
     f.close()
 
+file_read()
 # now we will learn to write in a file
 
 def file_write():
@@ -73,7 +74,7 @@ def replace():
         data=file.read()  # it will store data as string
 
 
-    new_data=data.replace('java','Python')
+    new_data=data.replace('java','Python')                                                                                  
     print(new_data)
 
 
@@ -129,7 +130,6 @@ def word_line_loopmethod():
             print(f'{word} not found')
 
 word_line_loopmethod()
-
 
             
             

@@ -12,13 +12,16 @@ def csv_singlerow():
         writer.writerow([2, "Tim Berners-Lee", "World Wide Web"])
         writer.writerow([3, "Guido van Rossum", "Python Programming"])
 
+#csv_singlerow()
 
 # example to write multple rows at a time
 def csv_multiplerow():
-    row_list=[["SN", "Name", "Contribution"],
+    row_list=[
+        ["SN", "Name", "Contribution"],
               [1, "Linus Torvalds", "Linux Kernel"],
               [2, "Tim Berners-Lee", "World Wide Web"],
-              [3, "Guido van Rossum", "Python Programming"]]
+              [3, "Guido van Rossum", "Python Programming"]
+              ]
 
     with open('day 17/innovators.csv','w',newline='') as file:     # with newline='' ,it will create file as we want
         writer=csv.writer(file)
@@ -68,6 +71,7 @@ def csv_customquote():
 
          writing.writerows(row_list)
 
+csv_customquote()
 
 # in this writing also we can also use dialect 
 
@@ -83,7 +87,6 @@ def csv_dictwrite():
         writing.writerow({'player name':'kais','rating':2000})
         writing.writerow({'player name':'qais','rating':3000})
 
-csv_dictwrite()
 
 
 
