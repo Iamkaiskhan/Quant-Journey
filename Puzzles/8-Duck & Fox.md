@@ -1,6 +1,7 @@
 # Problem 8:
 <br>
 Link: https://brainstellar.com/puzzles/easy/8
+<br>
 ## Type: Strategy
 <br>
 ## Question:
