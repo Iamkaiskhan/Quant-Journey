@@ -1,0 +1,28 @@
+# Problem 7
+<br>
+Link: https://brainstellar.com/puzzles/easy/7
+<br>
+
+## Type: Strategy
+<br>
+
+## Question:
+<br>
+Hundred tigers and one sheep are put on a magic island that only has grass.
+Tigers can live on grass, but they want to eat sheep. If a Tiger bites the Sheep then it will become a sheep itself.
+If 2 tigers attack a sheep, only the first tiger to bite converts into a sheep.
+Tigers don’t mind being a sheep, but they have a risk of getting eaten by another tiger.
+All tigers are intelligent and want to survive. Will the sheep survive?
+<br>
+
+## Solution:
+<br>
+If there is 1 tiger, then it will eat the sheep because he does not need to worry about being eaten. Sheep will not survive. If there are 2 tigers, both of them knows that if one eats the Sheep, the other tiger will eat him. So, the sheep will survive.
+
+If there are 3 tigers, then they each of them knows that if one tiger eats up the sheep, then Iceland will be left with 1 sheep and 2 tigers and as shown in the previous case, the sheep will survive. Hence each tiger will try to eat up the sheep. The sheep will not survive.
+
+If there are 4 tigers, then the sheep will survive.
+
+And so on….
+
+So, If there are even number of tigers the sheep will survive, else it will die. Hence, if there are 100 tigers the sheep will survive.
