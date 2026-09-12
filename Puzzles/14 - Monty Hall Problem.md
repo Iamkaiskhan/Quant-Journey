@@ -6,6 +6,10 @@
 
 <br>
 
+# Solution 14 
+
+<br>
+
 <img width="878" height="560" alt="image" src="https://github.com/user-attachments/assets/09ac6e72-fc28-4ce6-9860-4e4d14b0506a" />
 
 <br>
