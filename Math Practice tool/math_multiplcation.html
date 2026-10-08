@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Mental Math Engine</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --panel-bg: #161b22;
+            --text-main: #c9d1d9;
+            --accent: #58a6ff;
+            --success: #3fb950;
+            --danger: #f85149;
+            --border: #30363d;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: var(--panel-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+        h1, h2 { text-align: center; margin-top: 0; color: var(--text-main); }
+        select, button, input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        select:focus, input:focus { outline: none; border-color: var(--accent); }
+        button {
+            background-color: var(--accent);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        button:hover { opacity: 0.8; }
+        .hidden { display: none !important; }
+        #game-screen { text-align: center; }
+        .stats { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 20px; color: #8b949e; }
+        #question-display { font-size: 48px; font-weight: bold; margin: 20px 0; letter-spacing: 2px; }
+        #user-input { font-size: 24px; text-align: center; font-weight: bold; }
+        #hint-display { margin-top: 15px; font-size: 14px; color: #8b949e; min-height: 40px; font-style: italic; }
+        .btn-secondary { background-color: transparent; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-secondary:hover { border-color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+<div class="container" id="setup-screen">
+    <h1>Algorithm Trainer</h1>
+    <p style="text-align: center; color: #8b949e; margin-bottom: 25px;">Select a methodological framework to drill.</p>
+    
+    <select id="trick-selector">
+        <option value="mixed">🔥 Ultimate Mixed Mode (All Tricks)</option>
+        <optgroup label="1. Scaling & Base Heuristics">
+            <option value="scale4525">Multiply by 4, 5, or 25</option>
+            <option value="scale15">The 15 Shortcut (+ 50%)</option>
+            <option value="scale9s">Multiply by 9, 99, or 999</option>
+        </optgroup>
+        <optgroup label="2. Algebraic Symmetries">
+            <option value="diffSquares">Difference of Two Squares</option>
+            <option value="square5">Squaring Numbers Ending in 5</option>
+            <option value="tensMatch">Tens Match & Units Sum to 10</option>
+        </optgroup>
+        <optgroup label="3. Vedic Mathematics">
+            <option value="vedic100">Base 100 Proximity (Nikhilam)</option>
+        </optgroup>
+        <optgroup label="4. The Trachtenberg System">
+            <option value="trach11">Multiply by 11</option>
+            <option value="trach12">Multiply by 12</option>
+            <option value="trach689">Multiply by 6, 8, or 9</option>
+        </optgroup>
+        <optgroup label="5. Universal Calculation (L2R / Urdhva)">
+            <option value="uni2x2">Universal 2x2 Multiplication</option>
+            <option value="uni3x2">Universal 3x2 Multiplication</option>
+        </optgroup>
+    </select>
+
+    <button id="start-btn">Initialize Sequence</button>
+</div>
+
+<div class="container hidden" id="game-screen">
+    <div class="stats">
+        <div>Score: <span id="score" style="color: var(--success); font-weight: bold;">0</span></div>
+        <div>Time: <span id="time">120</span>s</div>
+    </div>
+    
+    <div id="trick-title" style="font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;"></div>
+    <div id="question-display">-- × --</div>
+    
+    <input type="number" id="user-input" placeholder="Type answer & press Enter" autocomplete="off">
+    
+    <div id="hint-display">Press 'Hint' to view the algorithmic rule.</div>
+    <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button id="hint-btn" class="btn-secondary">Show Rule (Hint)</button>
+        <button id="end-btn" class="btn-secondary" style="color: var(--danger); border-color: var(--danger);">End Session</button>
+    </div>
+</div>
+
+<script>
+    // --- Algorithmic Generators ---
+    const R = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    const format = (a, b, hint) => ({ q: `${a} × ${b}`, a: a * b, hint });
+
+    const generators = {
+        scale4525: () => {
+            const multi = [4, 5, 25][R(0, 2)];
+            const n = R(12, 99) * (multi === 25 ? 4 : (multi === 5 ? 2 : 1)); 
+            let hint = multi === 4 ? "Double it, then double it again." :
+                       multi === 5 ? "Cut in half, then multiply by 10 (append 0)." :
+                       "Divide by 4, then multiply by 100 (append 00).";
+            return format(n, multi, hint);
+        },
+        scale15: () => {
+            const n = R(12, 88) * 2; // Keep even for clean halving
+            return format(n, 15, "Add exactly half of the number to itself, then append a zero.");
+        },
+        scale9s: () => {
+            const multi = [9, 99, 999][R(0, 2)];
+            const n = R(12, 85);
+            return format(n, multi, `Append ${multi.toString().length} zero(s), then subtract the original number.`);
+        },
+        diffSquares: () => {
+            const center = R(20, 90);
+            const gap = R(1, 4);
+            return format(center - gap, center + gap, `Identify center (${center}). Square it, then subtract the gap squared (${gap}² = ${gap*gap}).`);
+        },
+        square5: () => {
+            const tens = R(1, 9);
+            const n = (tens * 10) + 5;
+            return format(n, n, `Multiply tens digit (${tens}) by next higher integer (${tens+1}), then append 25.`);
+        },
+        tensMatch: () => {
+            const tens = R(2, 9);
+            const u1 = R(1, 9);
+            const u2 = 10 - u1;
+            return format((tens * 10) + u1, (tens * 10) + u2, `Multiply tens (${tens}) by next integer (${tens+1}). Multiply units (${u1}×${u2}) and append.`);
+        },
+        vedic100: () => {
+            const a = R(91, 99), b = R(91, 99);
+            return format(a, b, `Deficiencies: -${100-a}, -${100-b}. Cross-subtract for first part, multiply deficiencies for second part.`);
+        },
+        trach11: () => {
+            const n = R(111, 999);
+            return format(n, 11, "Prepend a zero. Sweep right-to-left: add each digit to its right neighbor.");
+        },
+        trach12: () => {
+            const n = R(111, 499);
+            return format(n, 12, "Prepend a zero. Sweep right-to-left: double the current digit and add its right neighbor.");
+        },
+        trach689: () => {
+            const multi = [6, 8, 9][R(0, 2)];
+            const n = R(11, 99);
+            let hint = multi === 6 ? "Add half the neighbor. If digit is odd, add 5." :
+                       multi === 8 ? "Subtract unit from 10, others from 9. Double it, add neighbor." :
+                       "Subtract unit from 10, others from 9. Add neighbor.";
+            return format(n, multi, hint);
+        },
+        uni2x2: () => {
+            return format(R(13, 98), R(13, 98), "Use L2R Distribution [ (A×B_tens) + (A×B_units) ] OR Vedic Cross-Multiplication.");
+        },
+        uni3x2: () => {
+            return format(R(111, 989), R(13, 98), "Use L2R Distribution (round 3-digit number to nearest hundred) OR 3x2 Vedic Cross.");
+        }
+    };
+
+    // --- State & Logic ---
+    let currentMode = 'mixed';
+    let currentQuestion = {};
+    let score = 0;
+    let timeLeft = 120;
+    let timerInterval;
+
+    const els = {
+        setup: document.getElementById('setup-screen'),
+        game: document.getElementById('game-screen'),
+        selector: document.getElementById('trick-selector'),
+        startBtn: document.getElementById('start-btn'),
+        qDisplay: document.getElementById('question-display'),
+        input: document.getElementById('user-input'),
+        score: document.getElementById('score'),
+        time: document.getElementById('time'),
+        hintBtn: document.getElementById('hint-btn'),
+        hintDisplay: document.getElementById('hint-display'),
+        endBtn: document.getElementById('end-btn'),
+        title: document.getElementById('trick-title')
+    };
+
+    function generateQuestion() {
+        let mode = currentMode;
+        if (mode === 'mixed') {
+            const keys = Object.keys(generators);
+            mode = keys[Math.floor(Math.random() * keys.length)];
+        }
+        currentQuestion = generators[mode]();
+        els.qDisplay.textContent = currentQuestion.q;
+        els.input.value = '';
+        els.hintDisplay.textContent = "Press 'Hint' to view the algorithmic rule.";
+        
+        // Update Title for mixed mode clarity
+        const activeOption = document.querySelector(`option[value="${mode}"]`);
+        els.title.textContent = activeOption ? activeOption.textContent : "Mixed Assessment";
+    }
+
+    function checkAnswer() {
+        const val = parseInt(els.input.value, 10);
+        if (val === currentQuestion.a) {
+            score++;
+            els.score.textContent = score;
+            els.input.style.borderColor = "var(--success)";
+            setTimeout(() => els.input.style.borderColor = "var(--border)", 200);
+            generateQuestion();
+        } else {
+            els.input.style.borderColor = "var(--danger)";
+            setTimeout(() => els.input.style.borderColor = "var(--border)", 300);
+            els.input.value = '';
+        }
+    }
+
+    function startGame() {
+        currentMode = els.selector.value;
+        score = 0;
+        timeLeft = 120;
+        els.score.textContent = score;
+        els.time.textContent = timeLeft;
+        els.setup.classList.add('hidden');
+        els.game.classList.remove('hidden');
+        generateQuestion();
+        els.input.focus();
+        
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            els.time.textContent = timeLeft;
+            if (timeLeft <= 0) endGame();
+        }, 1000);
+    }
+
+    function endGame() {
+        clearInterval(timerInterval);
+        alert(`Session Complete.\nFinal Score: ${score}\n\nBenchmark: 36+ is interview ready, 50+ is elite.`);
+        els.game.classList.add('hidden');
+        els.setup.classList.remove('hidden');
+    }
+
+    // --- Event Listeners ---
+    els.startBtn.addEventListener('click', startGame);
+    els.endBtn.addEventListener('click', endGame);
+    els.hintBtn.addEventListener('click', () => { els.hintDisplay.textContent = currentQuestion.hint; els.input.focus(); });
+    els.input.addEventListener('keyup', (e) => { if (e.key === 'Enter') checkAnswer(); });
+</script>
+</body>
+</html>
